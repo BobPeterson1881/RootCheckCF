@@ -1,6 +1,9 @@
 # RootCheck CloudFormation
 
 
+## Pre-requisites
+
+By default, Root login events go to Cloudtrail in us-east-1.  Cloudtrail must be enabled in 'us-east-1' or Cloudtrail for all regions must be enabled in the region where the Root Login check is run.
 
 ## Prep Lambda Code
 
@@ -10,9 +13,9 @@
 
 
 
-## How To Setup a CodePipeline
+## Crate CloudFormation Stack
 
-Create a stack using 'RootAPIMonitor.yaml' using below input values
+Create a Cloudformation stack using 'RootAPIMonitor.yaml' using below input values
 
 Input Parameter Values
 
