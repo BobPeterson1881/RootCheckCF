@@ -3,17 +3,21 @@
 
 Check to look for Root login attempts
 
-![aws-services][aws-services-image]
 
 
 ## Installation Options
 
-- [Pipeline](#setup-codepipeline)
-- [CloudFormation](#setup-using-cloudformation)
+- [Prerequisites](#prerequisites-for-setup)
+- [Pipeline](#setup-codepipeline) - Setup a Pipeline that automatically updates when source is updated.
+- [CloudFormation](#setup-using-cloudformation) - Setup dedicated Stack with CloudFormation.  Code is not auto-updated.
 
 ## Prerequisites For Setup
 
+### Cloudtrail
+
 By default, Root login events go to Cloudtrail in us-east-1.  Cloudtrail must be enabled in 'us-east-1' or Cloudtrail for all regions must be enabled in the region where the Root Login check is run.
+
+### Alert Log Destination
 
 If this project is deployed in an account that is different from the main account where the Alert System was deployed, we need to add a permission for the account to access the Destination in the main account.
 
