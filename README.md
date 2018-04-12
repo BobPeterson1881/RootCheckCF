@@ -23,15 +23,17 @@ Input Parameter Values
 - CloudWatchLogGroupName:
 
   Name of a local Cloudwatch Log Group where this trigger sends alert messages
-  
+
 - LambdaTimeout
+
   Enter a timeout value in seconds for the lambda function. Min is 3, max is 300 and default is 60.
-  
+
 - LambdaS3Bucket:
 
   Name of the S3 bucket where the lambda function is stored
 
 - LambdaS3Key:
+
   Name of the S3 key of the Lambda function (include the prefix as well)
 
 
