@@ -1,47 +1,77 @@
-# RootCheck CloudFormation
+
+# Root Login Check
+
+Check to look for Root login attempts
+
+![aws-services][aws-services-image]
 
 
-## Pre-requisites
+## Installation Options
+
+- [Pipeline](#setup-codepipeline)
+- [CloudFormation](#setup-using-cloudformation)
+
+## Prerequisites For Setup
 
 By default, Root login events go to Cloudtrail in us-east-1.  Cloudtrail must be enabled in 'us-east-1' or Cloudtrail for all regions must be enabled in the region where the Root Login check is run.
 
-## Prep Lambda Code
+If this project is deployed in an account that is different from the main account where the Alert System was deployed, we need to add a permission for the account to access the Destination in the main account.
 
-1. Create a ZIP file of the source code files in RootActivityLambda.  The files should be in the root of the zip file.
+  - Go to the Lambda console of the main account and in the ‘us-east-1’ region
 
-2. Upload the file to your favorite S3 bucket
+  - Find a function called ‘SungardAS-Alerts- Permission-xxxx’ and configure the test event as below:
+
+  ```javascript
+  {
+      "region": "<region name where this project is deployed>",
+      "account": "<account number where this project is deployed>",
+      "destinationName": "<destination name defined in main Alert System; 'alertDestination' if not changed>"
+  }
+  ```
+
+  - Run Test to execute this lambda function
 
 
+## Setup CodePipeline
 
-## Crate CloudFormation Stack
-
-Create a Cloudformation stack using 'RootAPIMonitor.yaml' using below input values
+Create a stack using 'codepipeline.yaml' using below input values
 
 Input Parameter Values
 
 - CloudWatchLogDestinationArn:
 
-  ARN of Cloudwatch Log in remote account where Cloudwatch log subscription will send log info.
+  Value of `CloudWatchDestinationArn` in 'Outputs' of `SungardAS-aws-services-alerts(-destination)` stack in the main account's `same region` with one where this project is deployed
 
 - CloudWatchLogGroupName:
 
-  Name of a local Cloudwatch Log Group where this trigger sends alert messages
+  Name of a Cloudwatchlog Group where this trigger sends alert messages
 
-- LambdaTimeout
+- GitHubPersonalAccessToken:
 
-  Enter a timeout value in seconds for the lambda function. Min is 3, max is 300 and default is 60.
+  `Access Token` for CodeBuild to access to the this Github repository. (See <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/">here</a> to find how to generate the access token).
 
-- LambdaS3Bucket:
+- GitHubSourceRepositoryBranch: `master`
 
-  Name of the S3 bucket where the lambda function is stored
+- GitHubSourceRepositoryName: `aws-services-alerts-trigger`
 
-- LambdaS3Key:
+- GitHubSourceRepositoryOwner: `SungardAS`
 
-  Name of the S3 key of the Lambda function (include the prefix as well)
-
-
+- ProjectImage: `aws/codebuild/python:2.7.12`
 
 
+##Setup using CloudFormation
 
 
+## [![Sungard Availability Services | Labs][labs-logo]][labs-github-url]
 
+This project is maintained by the Labs group at [Sungard Availability
+Services](http://sungardas.com)
+
+GitHub: [https://sungardas.github.io](https://sungardas.github.io)
+
+Blog:
+[http://blog.sungardas.com/CTOLabs/](http://blog.sungardas.com/CTOLabs/)
+
+[labs-github-url]: https://sungardas.github.io
+[labs-logo]: https://raw.githubusercontent.com/SungardAS/repo-assets/master/images/logos/sungardas-labs-logo-small.png
+[aws-services-image]: ./docs/images/logo.png?raw=true
